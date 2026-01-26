@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var message = ""
+    @State private var messagesIndex = 0
     @State private var imageName = ""
     @State private var imageNumber = 0
     
@@ -26,13 +27,17 @@ struct ContentView: View {
                 .font(.largeTitle)
                 .fontWeight(.heavy)
                 .foregroundStyle(.red)
+                .multilineTextAlignment(.center)
             
             Spacer()
             
             HStack {
                 Button("Press Me!") {
-                    let message1 = "You Are Awesome!"
-                    let message2 = "You Are Great!"
+                    let messages = ["I can and I will",
+                                    "No pressure, no diamonds",
+                                    "Believe you can and you're halfway there",
+                                    "Never give up",
+                                    "You're the man!"]
                     
                     imageName = "image\(imageNumber)"
                     imageNumber += 1
@@ -40,7 +45,13 @@ struct ContentView: View {
                     if imageNumber > 9 {
                         imageNumber = 0
                     }
-                    message = ( message == message1 ? message2 : message1 )
+                    
+                    message = messages[messagesIndex]
+                    messagesIndex += 1
+                    
+                    if messagesIndex > messages.count - 1 {
+                        messagesIndex = 0
+                    }
                 }
             }
             .buttonStyle(.borderedProminent)
