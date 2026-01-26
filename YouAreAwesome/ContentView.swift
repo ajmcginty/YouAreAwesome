@@ -15,7 +15,6 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            
             Text(message)
                 .font(.largeTitle)
                 .fontWeight(.heavy)
@@ -42,19 +41,9 @@ struct ContentView: View {
                                     "Never give up",
                                     "You're the man!"]
                     
-                    imageName = "image\(imageNumber)"
-                    imageNumber += 1
+                    imageName = "image\(Int.random(in: 0...9))"
                     
-                    if imageNumber > 9 {
-                        imageNumber = 0
-                    }
-                    
-                    message = messages[messagesIndex]
-                    messagesIndex += 1
-                    
-                    if messagesIndex > messages.count - 1 {
-                        messagesIndex = 0
-                    }
+                    message = messages[Int.random(in:0...(messages.count - 1))]
                 }
             }
             .buttonStyle(.borderedProminent)
