@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var lastMessageNumber = -1
     @State private var lastSoundNumber = -1
     @State private var audioPlayer: AVAudioPlayer!
+    @State private var soundIsOn = true
     let numberOfImages = 10
     let numberOfSounds = 6
     
@@ -41,6 +42,17 @@ struct ContentView: View {
             Spacer()
             
             HStack {
+                Text("Sound On:")
+                Toggle("", isOn: $soundIsOn)
+                    .labelsHidden()
+                    .onChange(of: soundIsOn) {
+                        if audioPlayer != nil && audioPlayer.isPlaying {
+                            audioPlayer.stop()
+                        }
+                    }
+                
+                Spacer()
+                
                 Button("Press Me!") {
                     let messages = ["I can and I will",
                                     "No pressure, no diamonds",
@@ -58,7 +70,9 @@ struct ContentView: View {
 
                     lastSoundNumber = nonRepeatingRandom(lastNumber: lastSoundNumber,
                                                          upperBounds: numberOfSounds-1)
-                    playSound(soundName: "sound\(lastSoundNumber)")
+                    if soundIsOn {
+                        playSound(soundName: "sound\(lastSoundNumber)")
+                    }
                 }
             }
             .buttonStyle(.borderedProminent)
@@ -75,6 +89,9 @@ struct ContentView: View {
     }
     
     func playSound(soundName: String) {
+        if audioPlayer != nil && audioPlayer.isPlaying {
+            audioPlayer.stop()
+        }
         guard let soundFile = NSDataAsset(name: soundName) else{
             print("😡 Could not read file named \(soundName)")
             return
